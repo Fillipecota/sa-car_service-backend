@@ -17,3 +17,16 @@ model User {
 
   @@map("users")
 }
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  categoria String
+  modelo    String
+  cor       String
+  motor     Float
+  pneu      String
+  ano       Int
+  createdAt DateTime
+
+  @@map("products")
+}

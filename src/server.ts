@@ -1,6 +1,7 @@
 import fastify from "fastify";
 import cors from "@fastify/cors";
 import { userController } from "./controller/UserController";
+// import{productService} from "./service/ProductionService"
 import authJwt from "./middleware/authJwt";
 import fastifySwagger from "@fastify/swagger";
 import { swaggerConfig } from "./config/swagger";
@@ -18,6 +19,7 @@ app.register(fastifySwaggerUi, { routePrefix: '/docs', uiConfig: { docExpansion:
 
 app.register(authJwt)
 app.register(userController)
+// app.register(ProductionService)
 
 const PORT = 3333;
 app.listen({ port: PORT }).then(() => {
