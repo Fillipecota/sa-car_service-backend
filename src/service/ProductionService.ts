@@ -1,46 +1,45 @@
 
-// import {  Product } from "@prisma/client";
-// import { prisma } from "../prisma/client";
+import { Product} from "@prisma/client";
+import { prisma } from "../prisma/client";
+import crypto from "crypto";
 
-// class ProductService {
-//     private OS: number = 0;
+class ProductService {
+    //  Registrar veículos no banco
+    public async register(data: ProduzirVeiculos): Promise<void> {
+        const novosProdutos: Product = {
+            id: crypto.randomUUID(),
+            categoria: data.categoria,
+            modelo: data.modelo,
+            cor: data.cor,
+            motor: data.motor,
+            pneu: data.pneu,
+            ano: new Date().getFullYear(),
+            status: "Em produção",         
+            createdAt: new Date(),
+        };
 
-//     public async register(data: ProduzirVeiculos): Promise<void> {
-//         const novo = prisma.mark.findUnique({ where: { id: data.modelo } })
-//         if (!novo) {
-//             throw new Error("Modelo não existe!!!")
-//         }
+        await prisma.product.create({ data: novosProdutos })
+    }
 
-//     //     const product: Product = {
-//     //         id: crypto.randomUUID(),
-//     //         categoria: data.categoria,
-//     //         modelo: data.modelo,
-//     //         cor: data.cor,
-//     //         motor: data.motor,
-//     //         pneu: data.pneu,
-//     //         createdAt: new Date(),
-//     //     }
+    // Buscar os últimos 5 veículos produzidos
+    public async getAll() {
+        const produtos = await prisma.product.findMany({
+            orderBy: {
+                createdAt: "desc",
+            },
+            take: 5,
+        });
 
-//     //     await prisma.product.create({ data: product })
-//     // }
+        return produtos.map((produto) => ({
+            id: produto.id,
+            categoria: produto.categoria,
+            modelo: produto.modelo,
+            cor: produto.cor,
+            motor: produto.motor,
+            pneu: produto.pneu,
+            createdAt: produto.createdAt,
+        }));
+    }
+}
 
-//     // public async getAll() {
-//     //     const products = await prisma.product.findMany({
-//     //         include: {
-//     //             mark: true
-//     //         }
-//     //     })
-
-//     //     return products.map(product => ({
-//     //         id: product.id,
-//     //         categoria: product.categoria,
-//     //         modelo: product.modelo,
-//     //         cor: product.cor,
-//     //         motor: product.motor,
-//     //         pneu: product.pneu,
-//     //         createdAt: product.createdAt,
-//     //     }))
-//     // }
-// }
-
-// export const ProductionService = new ProductService();
+export const ProductServiceInstance = new ProductService();

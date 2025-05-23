@@ -19,14 +19,25 @@ model User {
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
+  id        String   @id
   categoria String
   modelo    String
   cor       String
   motor     Float
   pneu      String
   ano       Int
+  status    String
   createdAt DateTime
 
   @@map("products")
+}
+
+model Stock {
+  id      String @id
+  motor   String
+  pneu    String
+  carcaca String
+  chassi String
+  @@map("stock")
+
 }
