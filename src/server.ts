@@ -7,6 +7,7 @@ import fastifySwagger from "@fastify/swagger";
 import { swaggerConfig } from "./config/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { manutencaoController } from "./controller/maintenanceController";
+import { qualidadeController } from "./controller/qualityController";
 
 const app = fastify();
 
@@ -20,6 +21,7 @@ app.register(fastifySwaggerUi, { routePrefix: '/docs', uiConfig: { docExpansion:
 
 app.register(authJwt)
 app.register(userController)
+app.register(qualidadeController)
 app.register(producaoController)
 app.register(manutencaoController)
 
