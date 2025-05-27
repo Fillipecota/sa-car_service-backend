@@ -10,8 +10,8 @@ export async function manutencaoController(app: FastifyInstance) {
                 orderBy: { createdAt: "desc" }
             });
             return reply.code(200).send(manutencoes);
-        } catch (error: any) {
-            return reply.code(400).send({ error: error.message });
+        } catch (error) {
+            return reply.code(500).send({ error: "erro interno no servidor" });
         }
     });
     //  Atualizar status da manutenção
@@ -33,7 +33,7 @@ export async function manutencaoController(app: FastifyInstance) {
 
             return reply.code(200).send(atualizada);
         } catch (error: any) {
-            return reply.code(400).send({ error: error.message });
+            return reply.code(500).send({ error: error.message });
         }
     });
     //  Deletar manutenção
@@ -51,7 +51,7 @@ export async function manutencaoController(app: FastifyInstance) {
 
             return reply.code(200).send({ message: "Manutenção deletada com sucesso." });
         } catch (error: any) {
-            return reply.code(400).send({ error: error.message });
+            return reply.code(500).send({ error: "error interno ao deletar manutenção "});
         }
     });
 }

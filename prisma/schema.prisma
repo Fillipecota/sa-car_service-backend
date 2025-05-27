@@ -43,3 +43,13 @@ model Stock {
 
   @@map("stock")
 }
+
+model Manutencao{
+  id          String @id
+  descricao   String
+  equipamento String
+  responsavel String
+  preventiva  String
+  data        DateTime
+  @@map("Manutencao")
+}
