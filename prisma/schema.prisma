@@ -33,11 +33,13 @@ model Product {
 }
 
 model Stock {
-  id      String @id
-  motor   String
-  pneu    String
-  carcaca String
-  chassi String
-  @@map("stock")
+  id               String  @id
+  categoriaDoMotor String?
+  motor            String
+  pneu             String
+  carcaca          String
+  chassi           String
+  quantidade       Int
 
+  @@map("stock")
 }

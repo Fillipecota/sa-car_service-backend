@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { ProductServiceInstance } from "../service/ProductionService";
+import { productService } from "../service/productionService";
 
 export async function producaoController(app: FastifyInstance) {
     // Garante autenticação JWT
@@ -10,7 +10,7 @@ export async function producaoController(app: FastifyInstance) {
         const data = request.body as ProduzirVeiculos;
     
         try {
-            await ProductServiceInstance.register(data);
+            await productService.register(data);
             return reply.status(201).send({ message: "Produzido com sucesso!" });
         } catch (error:any) {
             return reply.code(400).send({ erro: error.message });
@@ -20,7 +20,7 @@ export async function producaoController(app: FastifyInstance) {
     // Buscar produções 
     app.get("/Production", async (request: FastifyRequest, reply: FastifyReply) => {
         try {
-            const products = await ProductServiceInstance .getAll()
+            const products = await productService .getAll()
             return reply.code(200).send(products);
         } catch (error: any) {
             return reply.code(400).send({ erro: error.message })

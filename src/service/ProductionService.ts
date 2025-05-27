@@ -42,4 +42,4 @@ class ProductService {
     }
 }
 
-export const ProductServiceInstance = new ProductService();
+export const productService= new ProductService();
