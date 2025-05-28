@@ -6,7 +6,6 @@ type ProduzirVeiculos = {
     cor: string;
     motor: number;
     pneu: string;
-    status: string
     quantidade: number;
 };
 

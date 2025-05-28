@@ -28,10 +28,12 @@ CREATE TABLE "products" (
 -- CreateTable
 CREATE TABLE "stock" (
     "id" TEXT NOT NULL,
+    "categoriaDoMotor" TEXT,
     "motor" TEXT NOT NULL,
     "pneu" TEXT NOT NULL,
     "carcaca" TEXT NOT NULL,
     "chassi" TEXT NOT NULL,
+    "quantidade" INTEGER NOT NULL,
 
     CONSTRAINT "stock_pkey" PRIMARY KEY ("id")
 );
@@ -42,8 +44,9 @@ CREATE TABLE "Manutencao" (
     "descricao" TEXT NOT NULL,
     "equipamento" TEXT NOT NULL,
     "responsavel" TEXT NOT NULL,
-    "preventiva" TEXT NOT NULL,
-    "data" TIMESTAMP(3) NOT NULL,
+    "tipo" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'Pendente',
+    "agendado" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Manutencao_pkey" PRIMARY KEY ("id")
 );

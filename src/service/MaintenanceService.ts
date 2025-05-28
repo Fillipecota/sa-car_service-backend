@@ -1,51 +1,71 @@
+import { Manutencao } from "@prisma/client";
 import { prisma } from "../prisma/client";
+import crypto from "crypto";
 
-export class MaintenanceService {
-  
-  // Listar todas as manutenções
-  async findAll() {
-    return await prisma.product.findMany({
-      orderBy: { createdAt: "desc" }
-    });
-  }
+class ManutencaoService {
+    //  Criar uma nova manutenção
+    public async create(data: ManutencaoVeiculos): Promise<void> {
+        const novaManutencao: Manutencao = {
+            id: crypto.randomUUID(),
+            descricao: data.descricao,
+            equipamento: data.equipamento,
+            responsavel: data.responsavel,
+            tipo: data.tipo,
+            status: "Pendente",
+            agendado: new Date(),
+            createdAt: new Date(),
+        };
 
-  // Buscar uma manutenção pelo ID
-  async findById(id: string) {
-    return await prisma.product.findUnique({
-      where: { id }
-    });
-  }
-
-  // Atualizar o status da manutenção
-  async updateStatus(id: string, status: string) {
-    const manutencao = await prisma.product.findUnique({
-      where: { id }
-    });
-
-    if (!manutencao) {
-      throw new Error("Manutenção não encontrada.");
+        await prisma.manutencao.create({ data: novaManutencao });
     }
 
-    return await prisma.product.update({
-      where: { id },
-      data: { status }
-    });
-  }
+    //  Buscar as últimas 5 manutenções
+    public async getAll() {
+        const manutencoes = await prisma.manutencao.findMany({
+            orderBy: {
+                // createdAt: "desc",
+            },
+            take: 5,
+        });
 
-  // Deletar manutenção
-  async delete(id: string) {
-    const manutencao = await prisma.product.findUnique({
-      where: { id }
-    });
-
-    if (!manutencao) {
-      throw new Error("Manutenção não encontrada.");
+        return manutencoes.map((item) => ({
+            id: item.id,
+            descricao: item.descricao,
+            equipamento: item.equipamento,
+            responsavel: item.responsavel,
+            tipo: item.tipo,
+            status: item.status,
+            agendado: item.agendado,
+            // createdAt: item.createdAt,
+        }));
     }
 
-    await prisma.product.delete({
-      where: { id }
-    });
+    //  Alternar status entre "Pendente" e "Concluída"
+    public async toggleStatus(id: string) {
+        const manutencao = await prisma.manutencao.findUnique({ where: { id } });
 
-    return { message: "Manutenção deletada com sucesso." };
-  }
+        if (!manutencao) {
+            throw new Error("Manutenção não encontrada");
+        }
+
+        const novoStatus = manutencao.status === "Pendente" ? "Concluída" : "Pendente";
+
+        await prisma.manutencao.update({
+            where: { id },
+            data: { status: novoStatus },
+        });
+    }
+
+    //  Deletar manutenção
+    public async delete(id: string) {
+        const manutencao = await prisma.manutencao.findUnique({ where: { id } });
+
+        if (!manutencao) {
+            throw new Error("Manutenção não encontrada");
+        }
+
+        await prisma.manutencao.delete({ where: { id } });
+    }
 }
+
+export const manutencaoService = new ManutencaoService();

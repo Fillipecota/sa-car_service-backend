@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id
+  id        String   @id 
   name      String
   email     String   @unique
   password  String
@@ -19,21 +19,22 @@ model User {
 }
 
 model Product {
-  id        String   @id
-  categoria String
-  modelo    String
-  cor       String
-  motor     Float
-  pneu      String
-  ano       Int
-  status    String
-  createdAt DateTime
+  id          String   @id 
+  categoria   String
+  modelo      String
+  cor         String
+  motor       Float
+  pneu        String
+  ano         Int
+  status      String
+  responsavel String
+  createdAt   DateTime 
 
   @@map("products")
 }
 
 model Stock {
-  id               String  @id
+  id               String  @id 
   categoriaDoMotor String?
   motor            String
   pneu             String
@@ -44,12 +45,26 @@ model Stock {
   @@map("stock")
 }
 
-model Manutencao{
-  id          String @id
+model Manutencao {
+  id          String   @id 
   descricao   String
   equipamento String
   responsavel String
-  preventiva  String
-  data        DateTime
-  @@map("Manutencao")
+  tipo        String
+  status      String   @default("Pendente")
+  agendado    DateTime
+  createdAt   DateTime 
+
+  @@map("maintenance")
+}
+
+model Quality {
+  id          String   @id 
+  produto     String
+  lote        String
+  responsavel String
+  status      String
+  createdAt   DateTime
+
+  @@map("quality")
 }
