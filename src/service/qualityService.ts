@@ -1,61 +1,30 @@
-import { Product } from "@prisma/client";
 import { prisma } from "../prisma/client";
 
-class QualidadeService {
-    //  Cadastrar nova qualidade
-    public async register(data: CreateQualidade): Promise<void> {
-        const mark = await prisma.product.findUnique({ where: { id: data.markId } });
+class QualityService {
 
-        if (!mark) {
-            throw new Error("Marca não encontrada.");
-        }
-
-        // const qualidade: Product = {
-        //     id: crypto.randomUUID(),
-        //     categoria: data.category,
-        //     modelo: data.category, 
-        // };
-
-    //     await prisma.product.create({ data: qualidade });
-    }
-
-    // Buscar todas as qualidades
+    //  Buscar os últimos 5 registros de qualidade
     public async getAll() {
-        const qualidades = await prisma.product.findMany({
+        return await prisma.quality.findMany({
             orderBy: { createdAt: "desc" },
-        });
-
-        return qualidades.map(q => ({
-        
-        }));
-    }
-
-    // Atualizar status
-    public async updateStatus({ id, status }: UpdateStatus) {
-        const existe = await prisma.product.findUnique({ where: { id } });
-
-        if (!existe) {
-            throw new Error("Qualidade não encontrada.");
-        }
-
-        await prisma.product.update({
-            where: { id },
-            data: { status }
+            take: 5,
         });
     }
 
-    //  Deletar qualidade
-    public async delete(id: string) {
-        const existe = await prisma.product.findUnique({ where: { id } });
+    //  Atualizar status da qualidade
+    public async updateStatus(data: UpdateQualityRequest) {
+        const quality = await prisma.quality.findUnique({
+            where: { id: data.id },
+        });
 
-        if (!existe) {
+        if (!quality) {
             throw new Error("Qualidade não encontrada.");
         }
 
-        await prisma.product.delete({
-            where: { id }
+        await prisma.quality.update({
+            where: { id: data.id },
+            data: { status: data.status },
         });
     }
 }
 
-export const qualidadeService = new QualidadeService();
+export const qualityService = new QualityService();

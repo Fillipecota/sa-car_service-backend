@@ -51,7 +51,7 @@ model Manutencao {
   equipamento String
   responsavel String
   tipo        String
-  status      String   @default("Pendente")
+  status      String   
   agendado    DateTime
   createdAt   DateTime 
 

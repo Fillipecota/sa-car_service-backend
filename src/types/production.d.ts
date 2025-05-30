@@ -1,14 +1,10 @@
-
-type ProduzirVeiculos = {
-    id: string;
+//  Tipagem dos dados para criação de produto
+type CreateProductRequest ={
     categoria: string;
     modelo: string;
     cor: string;
     motor: number;
     pneu: string;
     quantidade: number;
-};
-
-type UpdateProduzirVeiculos = {
-    status: string;
+    responsavel: string;
 }

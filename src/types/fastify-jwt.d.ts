@@ -23,4 +23,5 @@ declare module 'fastify' {
             decode: FastifyJWT['decode']
         }
     }
+    
 }
