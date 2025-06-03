@@ -4,7 +4,7 @@ import crypto from "crypto";
 
 class ProductService {
 
-    // ✅ Registrar veículos e criar entrada na qualidade
+    // Registrar veículos e criar entrada na qualidade
     public async register(data: CreateProductRequest): Promise<void> {
         const anoAtual = new Date().getFullYear();
 
